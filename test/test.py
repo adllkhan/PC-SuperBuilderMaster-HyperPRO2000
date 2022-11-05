@@ -14,3 +14,7 @@ def sumPrice(build):
     power = api.retrieve("power-supply").get("power-supply")[build].price
     return Decimal(sub(r'[^\d.]', '', str(cpu + motherboard + cooler + memory + videocard + case + drive + power)))
 print(float(sumPrice(0)))
+
+brand = "lol"
+text = "lol kek"
+print(text-brand)

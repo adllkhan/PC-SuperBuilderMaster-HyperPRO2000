@@ -1,68 +1,60 @@
-import RequestAPI, database
+from flask import Flask, render_template, request, redirect
+from src import database, RequestAPI
 
-def chooseAct():
-    return int(input("(type 1): Start build CPU. \n"
-          "(type 0): Exit. \n"))
+app = Flask(__name__)
+datas = []
+ids = []
+names = []
 
-def engine(act):
-    while act != 0:
-        act = chooseAct()
-        if act == 1:
-            input("Press any Button to choose cpu.")
-            for i in range (0, len(RequestAPI.getCPUs())):
-                print(i, ": ", RequestAPI.getCPUs()[i].brand, RequestAPI.getCPUs()[i].model)
-            cpu = int(input())
-            input("Press any Button to choose motherboard.")
-            for i in range (0, len(RequestAPI.getMotherboards())):
-                print(i, ": ", RequestAPI.getMotherboards()[i].brand, RequestAPI.getMotherboards()[i].model)
-            motherboard = int(input())
-            input("Press any Button to choose cooler.")
-            for i in range (0, len(RequestAPI.getCoolers())):
-                print(i, ": ", RequestAPI.getCoolers()[i].brand, RequestAPI.getCoolers()[i].model)
-            cooler = int(input())
-            input("Press any Button to choose memory.")
-            for i in range (0, len(RequestAPI.getMemories())):
-                print(i, ": ", RequestAPI.getMemories()[i].brand, RequestAPI.getMemories()[i].model)
-            memory = int(input())
-            input("Press any Button to choose videocard.")
-            for i in range (0, len(RequestAPI.getVideocards())):
-                print(i, ": ", RequestAPI.getVideocards()[i].brand, RequestAPI.getVideocards()[i].model)
-            videocard = int(input())
-            input("Press any Button to choose case.")
-            for i in range (0, len(RequestAPI.getCases())):
-                print(i, ": ", RequestAPI.getCases()[i].brand, RequestAPI.getCases()[i].model)
-            case = int(input())
-            input("Press any Button to choose hard-drive.")
-            for i in range(0, len(RequestAPI.getDrives())):
-                print(i, ": ", RequestAPI.getDrives()[i].brand, RequestAPI.getDrives()[i].model)
-            drive = int(input())
-            input("Press any Button to choose power-supplies.")
-            for i in range(0, len(RequestAPI.getPowers())):
-                print(i, ": ", RequestAPI.getPowers()[i].brand, RequestAPI.getPowers()[i].model)
-            power = int(input())
+@app.route("/")
+def index():
+    return render_template("index.html")
 
-            forPrice = database.PCbuilds(database.generateID(), cpu, motherboard, cooler, memory, videocard, case, drive, power, "")
-            build = database.PCbuilds(database.generateID(), cpu, motherboard, cooler, memory, videocard, case, drive, power, RequestAPI.sumPrice(forPrice))
-            bool = save(build)
-            if bool:
-                act = 0
-
-def save(build):
-    clause = int(input("save build or build again? (1/2):\n"))
-    if clause == 1:
+@app.route("/builder/<string:name>/<string:id>")
+def builder(name, id):
+    if str(id).isdigit():
+        names.append(name)
+        ids.append(id)
+        return render_template("builder.html")
+    elif str(id) == "start":
+        return render_template("builder.html")
+    elif str(id) == "done":
+        cpu, cooler, drive, videocard, motherboard, power, memory, case = 0
+        for i in range(0, len(names)):
+            if names[i] == "video-card":
+                videocard = ids[i]
+            elif names[i] == "cpu-cooler":
+                cooler = ids[i]
+            elif names[i] == "internal-hard-drive":
+                drive = ids[i]
+            elif names[i] == "power-supply":
+                power = ids[i]
+            elif names[i] == "cpu":
+                cpu = ids[i]
+            elif names[i] == "memory":
+                memory = ids[i]
+            elif names[i] == "case":
+                case = ids[i]
+            elif names[i] == "power-supply":
+                power = ids[i]
+        forprice = database.PCbuilds(database.generateID(), cpu, motherboard, cooler, memory, videocard, case, drive. power, "")
+        build = RequestAPI.sumPrice(forprice)
         database.add(build)
-        print("build saved!")
-        clause = input("Exit? (Y/n):\n")
-        if clause.lower() != "y":
-            engine(-1)
-            return False
-        else:
-            print("Good Bye!")
-            return True
-    elif clause == 2:
-        engine(-1)
-        return False
-    else:
-        save(build)
+        return
 
-engine(-1)
+@app.route("/builder/partpicker/<string:name>", methods=["GET", "POST"])
+def partPicker(name):
+    if(request.method == "GET" or request.method == "POST"):
+        for i in RequestAPI.getParts(str(name)):
+            datas.append(str(i.brand).lower() + " " + str(i.model).lower())
+        return render_template("PartPicker.html", name=name, datas=datas)
+
+@app.route("/builder/partpicker/<string:name>/partinfo/<string:data>", methods=["GET", "POST"])
+def partInfo(name, data):
+    response = None
+    id = datas.index(str(data))
+    response = RequestAPI.getParts(name)[id]
+    return render_template("PartInfo.html", response=response, name=name, id=id)
+
+if __name__ == '__main__':
+    app.run(debug = True, host = '0.0.0.0', port=8080)

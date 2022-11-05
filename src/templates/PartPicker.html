@@ -5,6 +5,11 @@
     <title>Title</title>
 </head>
 <body>
-
+    <table>
+        <a href="/builder/start/start">Home</a>
+        {% for row in datas %}
+        <tr><th><a href="/builder/partpicker/{{ name }}/partinfo/{{ row }}">{{ row }}</a></th></tr>
+        {% endfor %}
+    </table>
 </body>
 </html>

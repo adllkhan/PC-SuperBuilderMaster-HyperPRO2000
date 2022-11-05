@@ -1,4 +1,4 @@
-from flask import Flask
+from src.kkkk import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -14,6 +14,7 @@ class PCbuilds(db.Model):
     cooler = db.Column(db.Integer)
     memory = db.Column(db.Integer)
     videocard = db.Column(db.Integer)
+    case = db.Column(db.Integer)
     drive = db.Column(db.Integer)
     power = db.Column(db.Integer)
     price = db.Column(db.String)
