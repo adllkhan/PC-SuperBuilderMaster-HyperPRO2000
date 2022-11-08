@@ -5,6 +5,22 @@
     <title>Title</title>
 </head>
 <body>
+    <a href="/"> Home </a>
+    <p></p>
+
+    {% if name == 'memory' %}
+    <p>brand = {{ response.brand }}</p>
+    <p>model = {{ response.model }}</p>
+    <p>type = {{ response.module_type }}</p>
+    <p>speed = {{ response.speed }}</p>
+    <p>number of modules = {{ response.number_of_modules }}</p>
+    <p>first word latency = {{ response.first_word_latency }}</p>
+    <p>cas_timing = {{ response.cas_timing }}</p>
+    <p>error correction = {{ response.error_correction }}</p>
+    <p>price = {{ response.price }}</p>
+    {% endif %}
+
+    {% if name == 'cpu' %}
     <p>brand = {{ response.brand }}</p>
     <p>model = {{ response.model }}</p>
     <p>cores = {{ response.cores }}</p>
@@ -12,9 +28,67 @@
     <p>integrated graphics = {{ response.integrated_graphics }}</p>
     <p>multithreading = {{ response.multithreading }}</p>
     <p>price = {{ response.price }}</p>
-    <a href="/builder/{{ name }}/{{ id }}"> Collect </a>
-    <p></p>
-    <a href="/builder/start/start"> Home </a>
+    {% endif %}
 
+    {% if name == 'motherboard' %}
+    <p>brand = {{ response.brand }}</p>
+    <p>model = {{ response.model }}</p>
+    <p>socket = {{ response.socket }}</p>
+    <p>form-factor = {{ response.form_factor }}</p>
+    <p>ram_slots = {{ response.ram_slots }}</p>
+    <p>price = {{ response.price }}</p>
+    {% endif %}
+
+    {% if name == 'cpu-cooler' %}
+    <p>brand = {{ response.brand }}</p>
+    <p>model = {{ response.model }}</p>
+    <p>fan RPM = {{ response.fan_rpm }}</p>
+    <p>radiator size = {{ response.radiator_size }}</p>
+    <p>price = {{ response.price }}</p>
+    {% endif %}
+
+    {% if name == 'internal-hard-drive' %}
+    <p>brand = {{ response.brand }}</p>
+    <p>model = {{ response.model }}</p>
+    <p>type = {{ response.type }}</p>
+    <p>RPM = {{ response.platter_rpm }}</p>
+    <p>cache amount = {{ response.cache_amount }}</p>
+    <p>form-factor = {{ response.form_factor }}</p>
+    <p>interface = {{ response.interface }}</p>
+    <p>price = {{ response.price }}</p>
+    {% endif %}
+
+    {% if name == 'case' %}
+    <p>brand = {{ response.brand }}</p>
+    <p>model = {{ response.model }}</p>
+    <p>form-factor = {{ response.form_factor }}</p>
+    <p>PSU wattage = {{ response.psu_wattage }}</p>
+    <p>side panel = {{ response.side_panel }}</p>
+    <p>external bays = {{ response.external_bays }}</p>
+    <p>internal bays = {{ response.internal_bays }}</p>
+    <p>price = {{ response.price }}</p>
+    {% endif %}
+
+    {% if name == 'power-supply' %}
+    <p>brand = {{ response.brand }}</p>
+    <p>model = {{ response.model }}</p>
+    <p>form-factor = {{ response.form_factor }}</p>
+    <p>rating = {{ response.efficiency_rating }}</p>
+    <p>wattage = {{ response.wattage }}</p>
+    <p>modular = {{ response.modular }}</p>
+    <p>price = {{ response.price }}</p>
+    {% endif %}
+
+    {% if name == 'video-card' %}
+    <p>brand = {{ response.brand }}</p>
+    <p>model = {{ response.model }}</p>
+    <p>chipset = {{ response.chipset }}</p>
+    <p>vram = {{ response.vram }}</p>
+    <p>length = {{ response.length }}</p>
+    <p>price = {{ response.price }}</p>
+    {% endif %}
+
+    <p></p>
+    <a href="/builder/{{ name }}/{{ id }}"> Collect </a>
 </body>
 </html>

@@ -1,4 +1,4 @@
-from src.kkkk import Flask
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -6,6 +6,8 @@ app = Flask(__name__)
 app.app_context().push()
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql+psycopg2://postgres://:postgres@localhost:5432/pc"
 db.init_app(app)
+
+sample = ["cpu", "motherboard", "cooler", "memory", "videocard", "case", "drive", "power", "price"]
 
 class PCbuilds(db.Model):
     id = db.Column(db.Integer, primary_key = True)
@@ -34,6 +36,13 @@ class PCbuilds(db.Model):
 with app.app_context():
     db.create_all()
 
+def genID():
+    i = 0
+    with app.app_context():
+        while db.session.query(db.exists().where(PCbuilds.id == i)).scalar():
+            i+=1
+        return i
+
 def add(build):
     with app.app_context():
         db.session.add(build)
@@ -45,13 +54,12 @@ def data_exists(build):
         return(exists)
 
 def getData(id):
-    id = PCbuilds.id
     with app.app_context():
         build = db.get_or_404(PCbuilds, id)
         return build
-
-def generateID():
+def genID():
     i = 0
-    while db.session.query(db.exists().where(PCbuilds.id == i)).scalar():
-        i+=1
-    return i
+    with app.app_context():
+        while db.session.query(db.exists().where(PCbuilds.id == i)).scalar():
+            i+=1
+        return i

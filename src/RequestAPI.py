@@ -1,19 +1,17 @@
 from pcpartpicker import API
 from re import sub
 from decimal import Decimal
-from src import database
+from src import databasefr
 
-supported_parts = {'cpu', 'motherboard', 'cooler', 'memory', 'video-card', 'case', 'internal-hard-drive',
-                   'power-supply'}
+supported_parts = ['cpu', 'motherboard', 'cooler', 'memory', 'video-card', 'case', 'internal-hard-drive',
+                   'power-supply']
 
 api = API()
 
 
 def getParts(name):
-    try:
-        return api.retrieve(str(name)).get(str(name))
-    except:
-        getParts(name)
+
+    return api.retrieve(name).get(name)
 
 
 """
@@ -53,7 +51,6 @@ def sumPrice(build):
     return str(cpu + motherboard + cooler + memory + videocard + case + drive + power)
 
 
-
 print(api.retrieve("cpu").get("cpu")[0].price)
 print(api.retrieve("motherboard").get("motherboard")[0].price)
 print(api.retrieve("cpu-cooler").get("cpu-cooler")[0].price)
@@ -62,4 +59,3 @@ print(api.retrieve("video-card").get("video-card")[0].price)
 print(api.retrieve("case").get("case")[0].price)
 print(api.retrieve("internal-hard-drive").get("internal-hard-drive")[0].price)
 print(api.retrieve("power-supply").get("power-supply")[0].price)
-
