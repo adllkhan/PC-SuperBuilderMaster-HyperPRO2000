@@ -1,9 +1,6 @@
 from pcpartpicker import API
-from re import sub
-from decimal import Decimal
-from src import databasefr
 
-supported_parts = ['cpu', 'motherboard', 'cooler', 'memory', 'video-card', 'case', 'internal-hard-drive',
+supported_parts = ['cpu', 'motherboard', 'cpu-cooler', 'memory', 'video-card', 'case', 'internal-hard-drive',
                    'power-supply']
 
 api = API()
@@ -12,6 +9,10 @@ api = API()
 def getParts(name):
 
     return api.retrieve(name).get(name)
+
+def getParts2(name):
+
+    return api.retrieve(name)
 
 
 """

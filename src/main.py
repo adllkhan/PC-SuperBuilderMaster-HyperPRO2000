@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, redirect, flash
 from src import RequestAPI
 from src import database as db
 
@@ -97,30 +97,41 @@ def build(id):
     ids = []
     data = []
     price = db.getData(id).price
-    data.append(
-        RequestAPI.getParts(str("cpu"))[int(db.getData(id).cpu)].brand + " " + RequestAPI.getParts(str("cpu"))[
-            int(db.getData(id).cpu)].model)
-    data.append(
-        RequestAPI.getParts(str("motherboard"))[int(db.getData(id).motherboard)].brand + " " + RequestAPI.getParts(str("motherboard"))[
-            int(db.getData(id).motherboard)].model)
-    data.append(
-        RequestAPI.getParts(str("cpu-cooler"))[int(db.getData(id).cooler)].brand + " " + RequestAPI.getParts(str("cpu-cooler"))[
-            int(db.getData(id).cooler)].model)
-    data.append(
-        RequestAPI.getParts(str("memory"))[int(db.getData(id).memory)].brand + " " + RequestAPI.getParts(str("memory"))[
-            int(db.getData(id).memory)].model)
-    data.append(
-        RequestAPI.getParts(str("video-card"))[int(db.getData(id).videocard)].brand + " " + RequestAPI.getParts(str("video-card"))[
-            int(db.getData(id).videocard)].model)
-    data.append(
-        RequestAPI.getParts(str("case"))[int(db.getData(id).case)].brand + " " + RequestAPI.getParts(str("case"))[
-            int(db.getData(id).case)].model)
-    data.append(
-        RequestAPI.getParts(str("internal-hard-drive"))[int(db.getData(id).drive)].brand + " " + RequestAPI.getParts(str("internal-hard-drive"))[
-            int(db.getData(id).drive)].model)
-    data.append(
-        RequestAPI.getParts(str("power-supply"))[int(db.getData(id).power)].brand + " " + RequestAPI.getParts(str("power-supply"))[
-            int(db.getData(id).power)].model)
+
+    brand = RequestAPI.getParts(str(RequestAPI.supported_parts[0]))[int(db.getData(id).cpu)].brand
+    model = RequestAPI.getParts(str(RequestAPI.supported_parts[0]))[int(db.getData(id).cpu)].model
+    data.append(brand + " " + model)
+
+    brand = RequestAPI.getParts(str(RequestAPI.supported_parts[1]))[int(db.getData(id).motherboard)].brand
+    model = RequestAPI.getParts(str(RequestAPI.supported_parts[1]))[int(db.getData(id).motherboard)].model
+    data.append(brand + " " + model)
+
+    brand = RequestAPI.getParts(str(RequestAPI.supported_parts[2]))[int(db.getData(id).cooler)].brand
+    model = RequestAPI.getParts(str(RequestAPI.supported_parts[2]))[int(db.getData(id).cooler)].model
+    data.append(brand + " " + model)
+
+    brand = RequestAPI.getParts(str(RequestAPI.supported_parts[3]))[int(db.getData(id).memory)].brand
+    model = RequestAPI.getParts(str(RequestAPI.supported_parts[3]))[int(db.getData(id).memory)].model
+    data.append(brand + " " + model)
+
+    brand = RequestAPI.getParts(str(RequestAPI.supported_parts[4]))[int(db.getData(id).videocard)].brand
+    model = RequestAPI.getParts(str(RequestAPI.supported_parts[4]))[int(db.getData(id).videocard)].model
+    data.append(brand + " " + model)
+
+    brand = RequestAPI.getParts(str(RequestAPI.supported_parts[5]))[int(db.getData(id).case)].brand
+    model = RequestAPI.getParts(str(RequestAPI.supported_parts[5]))[int(db.getData(id).case)].model
+    data.append(brand + " " + model)
+
+    brand = RequestAPI.getParts(str(RequestAPI.supported_parts[6]))[int(db.getData(id).drive)].brand
+    model = RequestAPI.getParts(str(RequestAPI.supported_parts[6]))[int(db.getData(id).drive)].model
+    data.append(brand + " " + model)
+
+    brand = RequestAPI.getParts(str(RequestAPI.supported_parts[7]))[int(db.getData(id).power)].brand
+    model = RequestAPI.getParts(str(RequestAPI.supported_parts[7]))[int(db.getData(id).power)].model
+    data.append(brand + " " + model)
+
+
+
 
     return render_template("build.html", id = id,  data = data, price = price)
 
