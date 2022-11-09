@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+  <a href="/"> Home </a>
+  <p></p>
+  {% for id in ids %}
+  <tr><th><a href="/mybuilds/{{ id }}">build #{{ id }}</a></th></tr>
+  {% endfor %}
+</body>
+</html>
